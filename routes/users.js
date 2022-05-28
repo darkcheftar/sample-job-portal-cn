@@ -33,19 +33,10 @@ router.post('/',async (req, res)=>{
 })
 /// Updating one
 router.patch('/:id',getUser, async (req, res)=>{
-
-    if(req.body.name != null){
-        res.user.name = req.body.name
-    }
-    if(req.body.username != null){
-        res.user.username = req.body.username
-    }
-    if(req.body.password != null){
-        res.user.password = req.body.password
-    }
-    if(req.body.joiningDate != null){
-        res.user.joiningDate = req.body.joiningDate
-    }
+    let attrs= [name,username,password,joiningDate,skills]
+    attrs.forEach(a=>{
+        res.user[a] = req.body[a] || res.user[a];
+    })
     try{
         const updatedUser = await res.user.save()
         res.json(updatedUser)  
